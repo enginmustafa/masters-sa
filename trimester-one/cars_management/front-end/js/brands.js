@@ -1,39 +1,81 @@
-let brands = [
-    {
-        "id": 1,
-        "name": 'test',
-        'description':'test'
-    },
-    {
-        "id": 2,
-        "name": 'test',
-        'description':'test'
-    }
-];
+const brandUrl = 'http://localhost:8080/brand';
+let brands = [];
 
-function renderbrandList(){
-    console.log('in')
+function myFetch(url, fetchData, callback, awaitBody = true) {
+    fetchData.headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+    fetchData.body = JSON.stringify(fetchData.body);
+    fetch(url, fetchData)
+        .then(res => {
+            if (awaitBody)
+                return res.json()
+            else
+                callback();
+        })
+        .then(
+            (response) => {
+                callback(response);
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+                //catch err
+            }
+        )
+}
+
+function nullsToConstant(brand) {
+    brand.description = brand.description ?? '';
+}
+
+function renderFuelList() {
     $list = $('#brand-list');
     $list.empty();
     brands.forEach(brand => {
+        nullsToConstant(brand);
         const $template = getTemplate(brand);
         $list.append($template);
     })
 }
 
+function refreshData() {
+    myFetch(brandUrl + '/all',
+        { 'method': 'GET' },
+        (result) => {
+            brands = result;
+            renderFuelList();
+        })
+}
+
 function handleCreate(item) {
-    console.log(item);
+    myFetch(brandUrl,
+        {
+            'method': 'POST',
+            'body': item
+        },
+        () => {
+            refreshData();
+        })
 }
 
 function handleEdit(item) {
-    console.log(item);
+    myFetch(brandUrl,
+        { 'method': 'PUT', 'body': item },
+        () => {
+            refreshData();
+        })
 }
 
 function handleDelete(id) {
-    console.log(id);
+    myFetch(brandUrl + `/?id=${id}`,
+        { 'method': 'DELETE' },
+        () => {
+            refreshData();
+        },
+        false)
 }
 
-function getTemplate(item){
+function getTemplate(item) {
     const $template = `<tr>
                         <td class="brand-id" scope="row">${item.id}</th>
                         <td class="brand-name">${item.name}</td>
@@ -54,40 +96,43 @@ function getTemplate(item){
 }
 
 function editModal() {
-    $('#editModal').on('show.bs.modal', function(e) {
-      let btn = $(e.relatedTarget);
-      let id = btn.data('id'); 
-      let name = btn.data('name'); 
-      let description = btn.data('description'); 
-      $('.editNameInput').val(name);
-      $('.editDescriptionInput').val(description);
+    $('#editModal').on('show.bs.modal', function (e) {
+        let btn = $(e.relatedTarget);
+        let id = btn.data('id');
+        let name = btn.data('name');
+        let description = btn.data('description');
+        $('.editNameInput').val(name);
+        $('.editDescriptionInput').val(description);
 
-      $('.edit').data('id', id); 
+        $('.edit').data('id', id);
     })
-  
-    $('.edit').on('click', function() {
-      let id = $(this).data('id'); 
-       
-      let name = $('.editNameInput').val();
-      let description = $('.editDescriptionInput').val();
-  
-      handleEdit({id,name,description});
 
-      $('#editModal').modal('toggle'); 
+    $('.edit').on('click', function () {
+        let id = $(this).data('id');
+
+        let name = $('.editNameInput').val();
+        let description = $('.editDescriptionInput').val();
+
+        handleEdit({ id, name, description });
+
+        $('#editModal').modal('toggle');
     })
-  }
+}
 
-  function createModal() {
-    $('.create').on('click', function() {
+function createModal() {
+    $('#createModal').on('show.bs.modal', function (e) {
+        $('.createNameInput').val('');
+        $('.createDescriptionInput').val('');
+    })
+    $('.create').on('click', function () {
         let name = $('.createNameInput').val();
         let description = $('.createDescriptionInput').val();
-        
-        handleCreate({name, description});
-      $('#createModal').modal('toggle'); 
+
+        handleCreate({ name, description });
+        $('#createModal').modal('toggle');
     })
-  }
+}
 
-
-setTimeout(renderbrandList, 100);
-setTimeout(editModal,100);
-setTimeout(createModal,100);
+refreshData();
+setTimeout(editModal, 10);
+setTimeout(createModal, 10);

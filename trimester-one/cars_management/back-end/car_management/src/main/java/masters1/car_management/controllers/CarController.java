@@ -7,6 +7,7 @@ import masters1.car_management.FieldFilter;
 import masters1.car_management.Helpers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import masters1.car_management.repositories.CarRepository;
 
 
 @RestController
+@CrossOrigin(origins="*")
 public class CarController {
 	CarRepository carRepo;
 	

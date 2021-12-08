@@ -50,6 +50,65 @@
     </div>
   </nav>
 
+  <div class="container">
+    <div class="row mt-3 mt-md-5">
+      <div class="col-12 col-md-3">
+        <div class="card mt-2 mt-md-0">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Filters</h5>
+            <form>
+
+              <div class="mb-3">
+                <label class="form-label" for="filter-sort">Подреди по</label>
+                <select class="form-select" id="filter-sort">
+                  <option value="popularity.desc">Най-популярни</option>
+                  <option value="vote_average.desc">С най-висок рейтинг</option>
+                  <option value="release_date.desc">Най-скорошни</option>
+                </select>
+              </div>
+              <div class="mb-3">
+              </div>
+
+
+              <button id="get-cars" type="button" class="btn btn-primary">Filter</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card mt-2 mt-md-0">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="card-title">Car Management</h5>
+            </div>
+              <div class="position-relative">
+                <hr />
+                <button type="button" class="btn btn-success position-absolute bottom-0 end-0" data-toggle="modal" data-target="#createModal" >
+                  + Add New
+                </button>
+              </div>
+              <div class="card-body" class="row">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Brand</th>
+                      <th scope="col">Fuel</th>
+                      <th scope="col">Model</th>
+                      <th scope="col">ReleaseYear</th>
+                      <th scope="col">HorsePower</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id='car-list'>
+                    
+                  </tbody>
+                </table>
+              </div>
+        </div>
+      </div>
+    </div>
+
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
       <div class="col-md-4 d-flex align-items-center">
         <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">

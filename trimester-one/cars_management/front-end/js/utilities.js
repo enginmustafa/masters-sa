@@ -1,10 +1,15 @@
-export function getFullName(firstName = "Alexander", lastName = "Petrov"){
-    return `${firstName} ${lastName}`;
-}
-
-export const settings = {
-    apiKey: '12312312',
-    time: '1d',
-}
-
-
+export function myFetch(url, fetchData, callback) {
+    fetch(url, fetchData)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          callback(result);
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          //catch err
+        }
+      )
+  }

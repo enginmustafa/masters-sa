@@ -3,6 +3,7 @@ package masters1.car_management.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import masters1.car_management.entities.FuelEntity;
 import masters1.car_management.repositories.FuelRepository;
 
 @RestController
+@CrossOrigin(origins="*")
 public class FuelController {
 	
 	FuelRepository fuelRepo;
@@ -89,7 +91,7 @@ public class FuelController {
 			}			
 	}
 	
-	@DeleteMapping("fuel")
+	@DeleteMapping("/fuel")
 	public ResponseEntity<?> DeleteById(
 			@RequestParam(value = "id") int id) {
 		 if(fuelRepo.existsById(id)) {
@@ -99,9 +101,7 @@ public class FuelController {
 			 catch(Exception ex) {
 					return Helpers.ServerError(ex);
 			 }
-			 return ResponseEntity.
-					 ok()
-					 .build();
+			 return ResponseEntity.ok().build();
 		 }
 		 else {
 			 return ResponseEntity

@@ -3,6 +3,7 @@ package masters1.car_management.controllers;
 import java.util.List;
 import masters1.car_management.Helpers;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import masters1.car_management.repositories.BrandRepository;
 
 
 @RestController
+@CrossOrigin(origins="*")
 public class BrandController {
 
 	BrandRepository brandRepo;
@@ -29,7 +31,7 @@ public class BrandController {
 		return brandRepo.findAll();
 	}
 	
-	@GetMapping("brand")
+	@GetMapping("/brand")
 	public ResponseEntity<?> GetById(
 			@RequestParam(value = "id") int id) {
 		 if(brandRepo.existsById(id)) {
@@ -89,7 +91,7 @@ public class BrandController {
 			}			
 	}
 	
-	@DeleteMapping("brand")
+	@DeleteMapping("/brand")
 	public ResponseEntity<?> DeleteById(
 			@RequestParam(value = "id") int id) {
 		 if(brandRepo.existsById(id)) {
@@ -99,9 +101,7 @@ public class BrandController {
 			 catch(Exception ex) {
 					return Helpers.ServerError(ex);
 			 }
-			 return ResponseEntity.
-					 ok()
-					 .build();
+			 return ResponseEntity.ok().build();
 		 }
 		 else {
 			 return ResponseEntity
