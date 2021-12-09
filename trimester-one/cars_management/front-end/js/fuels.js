@@ -134,5 +134,5 @@ function createModal() {
 }
 
 refreshData();
-setTimeout(editModal, 10);
-setTimeout(createModal, 10);
+setTimeout(editModal, 1);
+setTimeout(createModal, 1);

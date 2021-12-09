@@ -23,10 +23,10 @@ public class CarEntity {
 	private String model;
 	
 	@Column(name = "ReleaseYear")
-	private int releaseYear;
+	private Integer releaseYear;
 	
 	@Column(name = "HorsePower")
-	private int horsePower;
+	private Integer horsePower;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "BrandID")
@@ -52,19 +52,19 @@ public class CarEntity {
 		this.model = model;
 	}
 
-	public int getReleaseYear() {
+	public Integer getReleaseYear() {
 		return releaseYear;
 	}
 
-	public void setReleaseYear(int releaseYear) {
+	public void setReleaseYear(Integer releaseYear) {
 		this.releaseYear = releaseYear;
 	}
 
-	public int getHorsePower() {
+	public Integer getHorsePower() {
 		return horsePower;
 	}
 
-	public void setHorsePower(int horsePower) {
+	public void setHorsePower(Integer horsePower) {
 		this.horsePower = horsePower;
 	}
 

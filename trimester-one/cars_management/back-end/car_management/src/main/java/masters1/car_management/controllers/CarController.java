@@ -29,7 +29,7 @@ public class CarController {
 		this.carRepo = carRepo;
 	}
 	
-	@GetMapping("/car/all")
+	@PostMapping("/car/all")
 	public ResponseEntity<?> GetFiltered(
 			@RequestBody List<FieldFilter> filters) {
 		
