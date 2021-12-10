@@ -6,6 +6,9 @@ let fuels = [];
 let cars = [];
 let filters = []
 
+let stateCount = 0;
+const isStateLoaded = () => stateCount > 2;
+
 
 function myFetch(url, fetchData, callback, awaitBody = true) {
     fetchData.headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
@@ -32,6 +35,9 @@ function myFetch(url, fetchData, callback, awaitBody = true) {
 function renderCarList() {
     $list = $('#car-list');
     $list.empty();
+    
+    if(!cars.length)
+        return;
 
     cars.forEach(car => {
         const $template = getTemplate(car);
@@ -44,6 +50,13 @@ function refreshData() {
         { 'method': 'POST', 'body': filters },
         (result) => {
             cars = result;
+
+            if(!isStateLoaded()) {
+                stateCount++;
+                createModal();
+                editModal();
+            }
+
             renderCarList();
         });
 
@@ -51,14 +64,42 @@ function refreshData() {
         { 'method': 'GET' },
         (result) => {
             brands = result;
-            brandSelect();
+
+            if(!isStateLoaded()) {
+                stateCount++;
+                brandSelect();
+            }
         });
     myFetch(fuelUrl + '/all',
         { 'method': 'GET' },
         (result) => {
             fuels = result;
-            fuelSelect();
+
+            if(!isStateLoaded()) {
+                stateCount++;
+                fuelSelect();
+            }
         });
+}
+
+function getFilterTemplate(name, filter) {
+    return {
+        'name': name,
+        'values': [filter]
+    };
+}
+
+function handleFilter() {
+    let fuelId = $('#filterFuelSelect').val();
+    let brandId = $('#filterBrandSelect').val();
+
+    filters = [];
+
+    if(fuelId)
+        filters.push(getFilterTemplate('fuel', fuelId)) 
+    if(brandId)
+        filters.push(getFilterTemplate('brand', brandId))
+    refreshData();
 }
 
 function handleCreate(item) {
@@ -96,7 +137,6 @@ function handleDelete(id) {
         },
         false)
 }
-
 
 function constant(val) {
     return val ?? '';
@@ -153,7 +193,7 @@ function editModal() {
         let brand = $('#editBrandSelect').val();
         let fuel = $('#editFuelSelect').val();
         let model = $('.editModelInput').val();
-        let releaseYear = $('.editReleaseYear').val();
+        let releaseYear = $('.editReleaseYearInput').val();
         let horsePower = $('.editHorsePowerInput').val();
 
         handleEdit({ id, brand, fuel, model, releaseYear, horsePower });
@@ -213,5 +253,5 @@ function fuelSelect() {
 }
 
 refreshData();
-setTimeout(editModal, 10);
-setTimeout(createModal, 10);
+// setTimeout(editModal, 10);
+// setTimeout(createModal, 10);

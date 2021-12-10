@@ -43,25 +43,25 @@ public class CarController {
 		
 		List<CarEntity> filteredCars = new ArrayList<CarEntity>();
 		
-		for(FieldFilter filter : filters) {
-			for(CarEntity car : cars) {
-				boolean match = false;
-				
+		for(CarEntity car : cars) {
+			boolean match = true;
+			
+			for(FieldFilter filter : filters) {
 				//if any filter matches, add the entity to filtered list
 				switch(filter.getName()) {
 					case "brand":
-						if(car.getBrand().hasIdInList(filter.getValues()))
-							match=true;
-						break;
+						if(!car.getBrand().hasIdInList(filter.getValues()))
+							match=false;
+							break;
 					case "fuel":
-						if(car.getFuel().hasIdInList(filter.getValues()))
-							match=true;
-						break;
+						if(!car.getFuel().hasIdInList(filter.getValues()))
+							match=false;
+							break;
 				}
-				
-				if(match)
-					filteredCars.add(car);
 			}
+			
+			if(match)
+				filteredCars.add(car);
 		}
 		
 		return ResponseEntity.
