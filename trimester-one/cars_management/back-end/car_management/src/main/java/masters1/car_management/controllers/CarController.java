@@ -57,6 +57,10 @@ public class CarController {
 						if(!car.getFuel().hasIdInList(filter.getValues()))
 							match=false;
 							break;
+					case "model":
+						if(!car.hasModelNameInList(filter.getValues()))
+							match=false;
+							break;
 				}
 			}
 			

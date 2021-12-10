@@ -1,5 +1,7 @@
 package masters1.car_management.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.springframework.data.annotation.Transient;
 
 @Entity
 @Table(name = "tbCar")
@@ -82,5 +86,15 @@ public class CarEntity {
 
 	public void setFuel(FuelEntity fuel) {
 		this.fuel = fuel;
+	}
+
+	@Transient
+	public boolean hasModelNameInList(List<String> models) {
+		for(String model : models) {
+			if(model.equals(this.model))
+				return true;
+		}
+		
+		return false;
 	}
 }

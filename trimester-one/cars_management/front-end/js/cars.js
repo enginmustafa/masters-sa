@@ -85,20 +85,33 @@ function refreshData() {
 function getFilterTemplate(name, filter) {
     return {
         'name': name,
-        'values': [filter]
+        'values': filter
     };
+}
+
+//split string into array of substrings if separated by comma
+function getSplitFilter(val) {
+    if(val.indexOf(',') >= 0) {
+        return val.split(',');
+    }
+
+    return [val];
 }
 
 function handleFilter() {
     let fuelId = $('#filterFuelSelect').val();
     let brandId = $('#filterBrandSelect').val();
+    let modelName = $('#filterModelInput').val();
 
     filters = [];
 
     if(fuelId)
-        filters.push(getFilterTemplate('fuel', fuelId)) 
+        filters.push(getFilterTemplate('fuel', [fuelId])) 
     if(brandId)
-        filters.push(getFilterTemplate('brand', brandId))
+        filters.push(getFilterTemplate('brand', [brandId]))
+    if(modelName)
+        filters.push(getFilterTemplate('model', getSplitFilter(modelName)));
+
     refreshData();
 }
 
@@ -214,7 +227,7 @@ function createModal() {
         let brand = $('#createBrandSelect').val();
         let fuel = $('#createFuelSelect').val();
         let model = $('.createModelInput').val();
-        let releaseYear = $('.createReleaseYear').val();
+        let releaseYear = $('.createReleaseYearInput').val();
         let horsePower = $('.createHorsePowerInput').val();
 
         handleCreate({ brand, fuel, model, releaseYear, horsePower });
@@ -253,5 +266,3 @@ function fuelSelect() {
 }
 
 refreshData();
-// setTimeout(editModal, 10);
-// setTimeout(createModal, 10);
