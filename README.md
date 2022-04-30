@@ -1,4 +1,4 @@
-# masters-sa (typegraphql)
+# typegraphql
 
 ## Login example:
 ```
