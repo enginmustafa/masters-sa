@@ -1,4 +1,4 @@
-# typegraphql
+# typegraphql-cars
 
 ## Login example:
 ```
